@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     Camera m_cam;
 
+    PlayerVFX m_playerVfx;
+
     void Start() {
         GetComponent();
     }
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
     void GetComponent(){
         m_rigid2D= GetComponent<Rigidbody2D>(); 
         m_cam= FindObjectOfType<Camera>();
+        m_playerVfx= GetComponent<PlayerVFX>();
     }
 
     void HandleMovement(){
@@ -31,11 +34,20 @@ public class PlayerController : MonoBehaviour
         if(inputData.isPressed){
             m_clickedPos= m_cam.ScreenToWorldPoint(Input.mousePosition);
             m_clickedPos= new Vector3(m_clickedPos.x, m_clickedPos.y, 0f);  
+
+            resetPlayerPos();
+            m_playerVfx.changeDotActiveState(true);
+        }
+
+        if (inputData.isHeld){
+            m_playerVfx.setDotPos(m_clickedPos, m_cam.ScreenToWorldPoint(Input.mousePosition));
         }
 
         if (inputData.isReleased){
             m_releasePos= m_cam.ScreenToWorldPoint(Input.mousePosition);
             m_releasePos= new Vector3(m_releasePos.x, m_releasePos.y, 0f);
+
+            m_playerVfx.changeDotActiveState(false);
 
             CalculateDirection();
             MovePlayerInDirection();
@@ -49,6 +61,11 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayerInDirection(){
         m_rigid2D.velocity= m_dir * moveSpeed;
+    }
+
+    void resetPlayerPos(){
+        transform.position= m_clickedPos;
+        m_rigid2D.velocity= Vector3.zero;
     }
 
 }
