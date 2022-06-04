@@ -36,11 +36,14 @@ public class PlayerController : MonoBehaviour
             m_clickedPos= new Vector3(m_clickedPos.x, m_clickedPos.y, 0f);  
 
             resetPlayerPos();
+
+            m_playerVfx.setDotStartPos(m_clickedPos);
             m_playerVfx.changeDotActiveState(true);
         }
 
         if (inputData.isHeld){
             m_playerVfx.setDotPos(m_clickedPos, m_cam.ScreenToWorldPoint(Input.mousePosition));
+            m_playerVfx.pulsePlayer();
         }
 
         if (inputData.isReleased){
@@ -48,6 +51,7 @@ public class PlayerController : MonoBehaviour
             m_releasePos= new Vector3(m_releasePos.x, m_releasePos.y, 0f);
 
             m_playerVfx.changeDotActiveState(false);
+            m_playerVfx.resetPlayerSize();
 
             CalculateDirection();
             MovePlayerInDirection();
