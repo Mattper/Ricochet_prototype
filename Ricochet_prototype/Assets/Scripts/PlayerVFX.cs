@@ -30,13 +30,22 @@ public class PlayerVFX : MonoBehaviour
 
     GameObject[]  m_dotArray;
 
+    TrailRenderer m_trailRenderer;
+
 
     // Start is called before the first frame update
     void Start()
     {
         m_dotGap= 1f/ dotAmount; //percentage of one dot relative to whole
+
+        GetComponent();
+
         initPulseEffect();
         spawnDots();
+    }
+
+    void GetComponent(){
+        m_trailRenderer= GetComponentInChildren<TrailRenderer>();
     }
 
     void initPulseEffect(){
@@ -92,5 +101,10 @@ public class PlayerVFX : MonoBehaviour
     public void resetPlayerSize(){
         transform.localScale= m_startSize;
         m_scrollAmount= 0f;
+    }
+
+    public void changeTrailState(bool emitting, float time){
+        m_trailRenderer.emitting= emitting;
+        m_trailRenderer.time= time;
     }
 }
