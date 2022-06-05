@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
             m_playerVfx.setDotStartPos(m_clickedPos);
             m_playerVfx.changeDotActiveState(true);
+            m_playerVfx.changeTrailState(false, 0);
         }
 
         if (inputData.isHeld){
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
             m_playerVfx.changeDotActiveState(false);
             m_playerVfx.resetPlayerSize();
+            m_playerVfx.changeTrailState(true, 0.75f);
 
             CalculateDirection();
             MovePlayerInDirection();
